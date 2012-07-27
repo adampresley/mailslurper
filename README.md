@@ -36,6 +36,8 @@ Release Notes
 * Updated interface to use Twitter Bootstrap
 * Upgrade to Grails 2.1.0
 * Application now uses embedded Jetty instead of Tomcat
+* Now has a refresh button to reload page 
+* Fixed issue with bad date formatting
 * Simplier binaries. Now only main JAR and WAR for web app. 
 
 **09.03.2010**
