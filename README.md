@@ -1,6 +1,13 @@
 MailSlurper
 ===========
-Simple mail server that slurps mail into oblivion!
+Simple mail SMTP server that slurps mail into oblivion! Useful only for local development
+MailSlurper runs on port 2500 and listens for outgoing mail send requests. When one is
+received the mail item is stored in a local H2 database.
+
+With an embedded web server running on port 4040 you can use your web browser and 
+go to address *http://localhost:4040* and view mail items that MailSlurper has 
+gobbled up.
+
 
 Requirements (to build)
 -----------------------
