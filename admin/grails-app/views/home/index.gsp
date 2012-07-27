@@ -24,7 +24,7 @@
 				<tr>
 					<td><a href="javascript:void(0);" class="viewMailItemIcon" data-id="${item.id}"><i class="icon-search"></i></a></td>
 					<td class="subject">${item["subject"]}</td>
-					<td class="date">${item.dateSent.format("YYYY-mm-dd h:mma")}</td>
+					<td class="date">${item.dateSent.format("YYYY-MM-dd h:mma")}</td>
 					<td class="from">${item.fromAddress}</td>
 					<td class="to">${item.toAddress}</td>
 				</tr>
