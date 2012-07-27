@@ -12,6 +12,9 @@
 			<p style="padding-top: 7px;">Sorting by <strong>${sortDescription} ${orderDescription}</strong></p>
 		</div>
 
+		<div class="well button-bar">
+			<a href="/"><i class="icon-refresh"></i> Refresh</a>
+		</div>
 		<table class="table table-striped">
 			<tr>
 				<th>&nbsp;</th>

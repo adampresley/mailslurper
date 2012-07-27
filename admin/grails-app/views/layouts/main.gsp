@@ -15,6 +15,7 @@
 		.sidebar-nav { padding: 9px 0; }
 	</style>
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap-responsive.css')}" type="text/css" />
+	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css" />
 
 	<!--[if lt IE 9]>
 	<script src="${resource(dir: 'js', file: 'html5.js')}"></script>
