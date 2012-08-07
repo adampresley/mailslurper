@@ -32,6 +32,9 @@ How to Run
 Release Notes
 -------------
 
+**08.07.2012**
+* Removed calls to console.log() in JavaScript that breaks IE
+
 **07.27.2012**
 * Updated interface to use Twitter Bootstrap
 * Upgrade to Grails 2.1.0
