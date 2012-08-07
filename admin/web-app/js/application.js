@@ -14,7 +14,6 @@ MailSlurper.Index = function(config) {
 			dataType: "json",
 			data: { id: id },
 			success: function(data) {
-				console.log(data);
 				new BootstrapPlus.Modal({
 					header: data.subject,
 					body: data.body

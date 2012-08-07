@@ -1,0 +1,5 @@
+admin/target/**/*
+dist/classes/
+dist/mailslurper-1.0.jar
+dist/maven-archiver
+stacktrace.log
