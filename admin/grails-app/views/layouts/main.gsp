@@ -16,6 +16,7 @@
 	</style>
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap-responsive.css')}" type="text/css" />
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css" />
+	<link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.wysiwyg.css')}" type="text/css" />
 
 	<!--[if lt IE 9]>
 	<script src="${resource(dir: 'js', file: 'html5.js')}"></script>
@@ -41,7 +42,8 @@
 						<li class="dropdown" id="toolsMenu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> Tools <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="/tools/clean"><i class="icon-list-alt"></i>Clean Database</a></li>
+								<li><a href="/tools/test"><i class="icon-download"></i> Send Test Email</a></li>
+								<li><a href="/tools/clean"><i class="icon-list-alt"></i> Clean Database</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -50,7 +52,7 @@
 		</div>
 	</div>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="theBody">
 		<div class="row-fluid">
 			<div class="span9">
 				<g:layoutBody/>
@@ -67,6 +69,7 @@
 	</div><!--/.fluid-container-->
 
 	<script src="${resource(dir: 'js', file: 'jquery-1.7.2.js')}"></script>
+	<script src="${resource(dir: 'js', file: 'jquery.wysiwyg.js')}"></script>
 	<script src="${resource(dir: 'js', file: 'bootstrap.js')}"></script>
 	<script src="${resource(dir: 'js', file: 'BootstrapPlus.js')}"></script>
 	<script src="${resource(dir: 'js', file: 'YAOF.js')}"></script>

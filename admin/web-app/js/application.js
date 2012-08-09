@@ -23,18 +23,15 @@ MailSlurper.Index = function(config) {
 	};
 
 	var
-		__init = function() {
-			$(".viewMailItemIcon").click(function() {
-				__this.popupMailItem($(this).attr("data-id"));
-			});
-		},
-
-		__config = $.extend(config, {
-
-		}),
+		__config = $.extend(config, {}),
 		__this = this;
 
-	__init();
+	/*
+	 * Constructor
+	 */
+	$(".viewMailItemIcon").click(function() {
+		__this.popupMailItem($(this).attr("data-id"));
+	});
 };
 YAOF.attach(MailSlurper.Index);
 
@@ -72,3 +69,64 @@ MailSlurper.Tools.CleanPage = function(config) {
 	__init();
 };
 YAOF.attach(MailSlurper.Tools.CleanPage);
+
+
+MailSlurper.Tools.TestPage = function(config) {
+	this.sendTestMessage = function(from, to, subject, message) {
+		MailSlurper.block("Sending message...");
+		$.ajax({
+			url: "/tools/ajax_test",
+			data: {
+				fromAddress: from,
+				toAddress: to,
+				subject: subject,
+				emailMessage: message
+			},
+			success: function(data) {
+				$.unblockUI();
+				$("#message").html("<p>The test message should now be on its way.</p>");
+				$("#messageWindow").addClass("alert-success").removeClass("hide");
+				$("#fromAddress").focus();
+			}
+		});
+	};
+
+
+	var
+		__config = $.extend(config, {}),
+		__this = this;
+
+
+	/*
+	 * Constructor
+	 */
+	$("#emailMessage").wysiwyg({
+		rmUnusedControls: true,
+		controls: {
+			bold: { visible: true },
+			italic: { visible: true },
+			underline: { visible: true },
+			paragraph: { visible: true },
+			h1: { visible: true },
+			h2: { visible: true },
+			h3: { visible: true },
+			cut: { visible: true },
+			copy: { visible: true },
+			paste: { visible: true },
+			html: { visible: true }
+		},
+		initialContent: "<p>This is a <em>test</em> message from MailSlurper.</p>"
+	});
+
+	$("#btnSend").click(function() { 
+		__this.sendTestMessage(
+			$("#fromAddress").val(),
+			$("#toAddress").val(),
+			$("#subject").val(),
+			$("#emailMessage").val()
+		);
+	});
+
+	$("#fromAddress").focus();
+};
+YAOF.attach(MailSlurper.Tools.TestPage);
