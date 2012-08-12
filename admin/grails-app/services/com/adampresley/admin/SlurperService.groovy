@@ -3,7 +3,7 @@ package com.adampresley.admin
 import java.util.regex.Pattern
 import com.adampresley.mailslurper.log.MailLogItem
 
-class MailService {
+class SlurperService {
 	def parseDataLine(String line) {
 		def p = Pattern.compile("(?i)^([a-z\\-0-9]+)\\:\\s+(.*?)\$")
 		def result = null

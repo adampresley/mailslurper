@@ -7,8 +7,9 @@ import java.io.OutputStreamWriter
 import java.io.PrintWriter
 import java.net.Socket
 import java.util.StringTokenizer
+import groovy.time.*
+import org.codehaus.groovy.runtime.TimeCategory
 
-import com.adampresley.admin.MailService 
 
 /**
  * This class handles a single SMTP connection and it's requests. Commands are 
@@ -44,17 +45,21 @@ public class SmtpExecutor extends Thread {
 	 */
 	@Override
 	public void run() {
+		def timeToKick = null
+		def maxWait = 2
+
 		this.writeln("220 SMTP Server MailSlurper ready and waiting.")
 		
 		try {
 			for (;;) {
 				String input = ""
 				
-				try {
+				if (this.__inStream.ready()) {
 					input = this.__inStream.readLine()
-					if (input == null) break;
-				} catch (Exception e) {
-					e.printStackTrace()
+					if (input == null) {
+						println "Input is null. Breaking"
+						break;
+					}
 				}
 				
 				/*
@@ -70,10 +75,13 @@ public class SmtpExecutor extends Thread {
 					this.doCommand_DATA()
 
 					/*
-					 * End the connection right after data is received. Possibly a problem
-					 * with clients that send multiple mails per connection??
+					 * Instead of kicking the connection out immediately
+					 * let's give it a little time to send a QUIT command
 					 */
-					break
+					use (TimeCategory) {
+						timeToKick = new Date() + maxWait.seconds
+						println "Finished data recieve. Kickout time is ${timeToKick}"
+					}
 				}
 				
 				if (command.compareTo("RCPT") == 0) {
@@ -100,16 +108,29 @@ public class SmtpExecutor extends Thread {
 					this.writeln("221 SMTP Server MailSlurper closing transmission channel")
 					break
 				}
+
+				/*
+				 * Do we have a kill command?
+				 */
+				if (timeToKick) {
+					if (new Date() > timeToKick) {
+						println "Timeout for QUIT command expired. Closing connection"
+						break
+					}
+				}
 			} 
 		} catch (Exception e) {
 			e.printStackTrace()
 		} finally {
 			try {
+				print "Closing socket connection"
 				this.__socket.close()
 			} catch (Exception e) {
 				e.printStackTrace()
 			}
 		}
+
+		println "Exiting SmtpExecutor\n"
 	}
 	
 
@@ -146,7 +167,11 @@ public class SmtpExecutor extends Thread {
 		
 		for (;;) {
 			String input = this.__inStream.readLine()
+			println "INPUT << ${input}"
+
 			if (input.equals(".")) {
+				if (!item["x-mailer"]) item["x-mailer"] = "N/A"
+
 				try {
 					this.__mailService.addMailItem(item.from, item.to, item.subject, item["x-mailer"], body)
 				} catch (Exception addException) {
@@ -167,7 +192,7 @@ public class SmtpExecutor extends Thread {
 					}
 
 					if (input == "") bodyCheckpoint++
-					if (bodyCheckpoint == 2) bodyStarted = true
+					if (bodyCheckpoint > 0) bodyStarted = true
 				} catch (Exception ex) {
 					println "Uh oh. Error in SmtpExecutor while getting data: ${ex.message}"
 					ex.printStackTrace()

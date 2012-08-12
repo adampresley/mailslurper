@@ -4,7 +4,7 @@ import grails.converters.JSON
 import com.adampresley.mailslurper.log.MailLogItem
 
 class RestMailController {
-	def mailService
+	def slurperService
 
 	def ok = { o ->
 		response.status = 200
@@ -30,7 +30,7 @@ class RestMailController {
 			if (!params.xMailer) throw new Exception("Missing argument 'xMailer'")
 			if (!params.body) throw new Exception("Missing argument 'body'")
 
-			mailService.addMailItem(
+			slurperService.addMailItem(
 				params.from,
 				params.to,
 				params.subject,
@@ -51,7 +51,7 @@ class RestMailController {
 			if (!params.sort) throw new Exception("Missing argument 'sort'")
 			if (!params.order) throw new Exception("Missing argument 'order'")
 
-			def results = mailService.getMailItems(params.offset, params.max, params.sort, params.order)
+			def results = slurperService.getMailItems(params.offset, params.max, params.sort, params.order)
 			ok([items: results])
 		} catch (Exception e) {
 			bad(e.message)
@@ -59,6 +59,6 @@ class RestMailController {
 	}
 
 	def getMailItemCount() {
-		ok([count: mailService.getTotalCount()])
+		ok([count: slurperService.getTotalCount()])
 	}
 }

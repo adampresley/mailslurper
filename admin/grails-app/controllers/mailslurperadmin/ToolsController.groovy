@@ -3,28 +3,29 @@ package mailslurperadmin
 import grails.converters.JSON
 
 class ToolsController {
-	def mailService
+	def slurperService
 
-    def clean() { }
+	def clean() { }
 
-    def ajax_clean() {
-    	mailService.cleanMailItems()
+	def ajax_clean() {
+		slurperService.cleanMailItems()
 
-    	def result = [success:true, message:"Database is now clean."]
-    	render result as JSON
-    }
+		def result = [success:true, message:"Database is now clean."]
+		render result as JSON
+	}
 
-    def test() { }
+	def test() { }
 
-    def ajax_test() {
-    	println "ajax_test: ${params}"
-    	mailService.sendMail {
-    		to params.toAddress
-    		from params.fromAddress
-    		subject params.subject
-    		body params.emailMessage
-    	}
-
-    	render "ok"
-    }
+	def ajax_test() {
+		try {
+			sendMail {
+				to params.toAddress
+				from params.fromAddress
+				subject params.subject
+				body params.emailMessage
+			}
+		} catch (Exception ex) {}
+		
+		render "ok"
+	} 
 }

@@ -3,7 +3,7 @@ package mailslurperadmin
 import grails.converters.JSON
 
 class HomeController {
-	def mailService
+	def slurperService
 
 	def index() {
 		if (!params.offset) params.offset = 0
@@ -21,14 +21,14 @@ class HomeController {
 		def orderMap = [ desc: "descending", asc: "ascending" ]
 
 		[
-			mailItems: mailService.getMailItems(params.offset, params.max, params.sort, params.order),
+			mailItems: slurperService.getMailItems(params.offset, params.max, params.sort, params.order),
 			sortDescription: sortMap[params.sort],
 			orderDescription: orderMap[params.order],
-			total: mailService.getTotalCount()
+			total: slurperService.getTotalCount()
 		]
 	}
 
 	def ajax_getMailItem() {
-		render mailService.getMailItem(params.id) as JSON
+		render slurperService.getMailItem(params.id) as JSON
 	}
 }

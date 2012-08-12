@@ -1,7 +1,7 @@
 import com.adampresley.mailslurper.server.SmtpServer
 
 class BootStrap {
-	def mailService
+	def slurperService
 
 	def init = { servletContext ->
 		/*
@@ -12,7 +12,7 @@ class BootStrap {
 		int maxRequestsInQueue = 10
 
 		println "Starting mail server..."
-		servletContext.server = new SmtpServer(address, port, maxRequestsInQueue, mailService)
+		servletContext.server = new SmtpServer(address, port, maxRequestsInQueue, slurperService)
 		servletContext.server.start()
 	}
 
